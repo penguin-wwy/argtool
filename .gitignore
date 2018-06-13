@@ -6,3 +6,6 @@ target
 *.dSYM
 *.32
 *.64
+
+/target
+**/*.rs.bk

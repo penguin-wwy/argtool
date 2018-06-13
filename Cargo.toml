@@ -1,0 +1,6 @@
+[package]
+name = "argtool"
+version = "0.1.0"
+authors = ["penguin-wwy <940375606@qq.com>"]
+
+[dependencies]
