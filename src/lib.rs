@@ -74,7 +74,7 @@ impl Argument {
             occur: self.occur(),
             occured: 0,
             submem: Vec::new(),
-            argrc: self,
+            argrc: &self,
         }
     }
 }
@@ -174,7 +174,7 @@ impl OptParser {
         self.add_argument(short, long, "", desc, HasArg::NO, Occur::Opt)
     }
 
-    pub fn parse_arguments<T: IntoIterator>(&mut self, args: T) -> Res
+    pub fn parse_arguments<T: IntoIterator>(&self, args: T) -> Res
         where T::Item: AsRef<OsStr>{
 
         let mut vals: Vec<Arg> = self.args.iter().map(|x| x.transform()).collect::<Vec<Arg>>();
@@ -256,7 +256,7 @@ impl OptParser {
         let table = OptTable {
             opts: vals,
             free: Some(free),
-            parser: self,
+            parser: &self,
         };
 
         return table.check_occur();
