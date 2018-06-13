@@ -242,7 +242,11 @@ impl OptParser {
                         if i_arg.is_some() {
                             v.value.push(ArgVal::Val(i_arg.clone().unwrap()));
                         } else if let Some(i_arg) = args.next() {
-                            v.value.push(ArgVal::Val(i_arg));
+                            if OptParser::is_arg(i_arg.as_ref()) {
+                                return Err(Fail::UnexpectedArgument(name.to_string()));
+                            } else {
+                                v.value.push(ArgVal::Val(i_arg));
+                            }
                         } else {
                             return Err(Fail::UnexpectedArgument(name.to_string()));
                         }
