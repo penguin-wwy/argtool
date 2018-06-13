@@ -166,12 +166,12 @@ impl OptParser {
         self.add_argument(short, long, hint, desc, HasArg::YES, Occur::Opt)
     }
 
-    pub fn add_necessary_flag(&mut self, short: &str, long: &str, desc: &str, hint: &str) -> &mut Self {
-        self.add_argument(short, long, hint, desc, HasArg::NO, Occur::Once)
+    pub fn add_necessary_flag(&mut self, short: &str, long: &str, desc: &str) -> &mut Self {
+        self.add_argument(short, long, "", desc, HasArg::NO, Occur::Once)
     }
 
-    pub fn add_optional_flag(&mut self, short: &str, long: &str, desc: &str, hint: &str) -> &mut Self {
-        self.add_argument(short, long, hint, desc, HasArg::NO, Occur::Opt)
+    pub fn add_optional_flag(&mut self, short: &str, long: &str, desc: &str) -> &mut Self {
+        self.add_argument(short, long, "", desc, HasArg::NO, Occur::Opt)
     }
 
     pub fn parse_arguments<T: IntoIterator>(&mut self, args: T) -> Res
@@ -333,7 +333,7 @@ impl OptParser {
 }
 
 #[derive(Clone)]
-enum ArgVal {
+pub enum ArgVal {
     Val(String),
     Given,
 }
@@ -413,14 +413,14 @@ impl<'a> OptTable<'a> {
         return Ok(self);
     }
 
-    fn get_vals(&self, name: &str) -> Vec<ArgVal> {
+    pub fn get_vals(&self, name: &str) -> Vec<ArgVal> {
         match self.parser.find_opt(&Name::from_str(name)) {
             Some(id) => self.opts[id].value.clone(),
             None => panic!("No option '{}' defined.", name)
         }
     }
 
-    fn get_val(&self, name: &str) -> Option<String> {
+    pub fn get_val(&self, name: &str) -> Option<String> {
         let id = match self.parser.find_opt(&Name::from_str(name)) {
             Some(id) => id,
             None => panic!("No option '{}' defined.", name),
@@ -432,7 +432,7 @@ impl<'a> OptTable<'a> {
         }
     }
 
-    fn get_flag(&self, name: &str) -> bool {
+    pub fn get_flag(&self, name: &str) -> bool {
         match self.parser.find_opt(&Name::from_str(name)) {
             Some(id) => match self.opts[id].occured {0 => false, _ => true},
             None => panic!("No option '{}' defined.", name)

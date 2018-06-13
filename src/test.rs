@@ -28,7 +28,7 @@ mod tests {
         let args = vec!("--test=20".to_string());
         let mut opts = OptParser::new();
         opts.add_optional_arg("t", "test", "test times", "=times");
-        opts.add_necessary_flag("i", "index", "include mode", "");
+        opts.add_necessary_flag("i", "index", "include mode");
         match opts.parse_arguments(args) {
             Err(MissingArgument(nm)) => {
                 println!("missing argument: {}", nm);
@@ -67,7 +67,7 @@ mod tests {
     fn test_report_unexpected() {
         let args = vec!("--test=20".to_string());
         let mut opts = OptParser::new();
-        opts.add_optional_flag("t", "test", "run test", "");
+        opts.add_optional_flag("t", "test", "run test");
         match opts.parse_arguments(args) {
             Err(UnexpectedArgument(nm)) => {
                 println!("unexpected argument: {}", nm);
